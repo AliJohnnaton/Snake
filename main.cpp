@@ -12,12 +12,12 @@ double pix = 25, piy = 0, wi(0), hi(0), timer = 0, delay = 0.15, timerm = 0, del
 Sprite tile, Snak, apple, Heal, GO, WRules, Menu;
 Sound Happle, Happ, Fall;
 RenderWindow window, woptions, wmenu, wrules;
-Sprite Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
-vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22 };
-Text SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22;
-vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22 };
-Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22;
-vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22 };
+Sprite Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22,Sn23;
+vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22,Sn23 };
+Text SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22,SN24;
+vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22,SN24 };
+Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22, sn23;
+vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22, sn23 };
 
 struct Snake
 {
@@ -140,11 +140,13 @@ void Game()
 			    Happ.play();
 			if (mob == 100)
 				mob = 0;
-			num -= 2;
+			if (num > 3)
+				num -= 2;
 			score -= 20;
 			fu[i].x = M + 1;
 			fu[i].y = N + 1;
 			heal -= 1;
+			
 		}
 	}
 
@@ -153,7 +155,8 @@ void Game()
 	{
 		Happle.play();
 		bool w = false;
-	    num++;
+		if(score>=0)
+	       num++;
 		score += 10;
 		for (int i(0); i < num; ++i)
 		{
@@ -398,7 +401,7 @@ void wOptions()
 	woptions.setMouseCursorVisible(false);
 	Clock oclock;
 	oclock.restart();
-	int pol = 40;
+	int pol = 38;
 	for (int i(0); i < SnakeS.size(); ++i)
 	{
 		SnakeS[i].setFont(mfont);
@@ -408,7 +411,7 @@ void wOptions()
 		Vector2<float> score_scale(1.5f, 1.5f);
 		SnakeS[i].setScale(score_scale);
 		SnakeS[i].setString(to_string(i+1));
-		pol += 43;
+		pol += 38;
 	}
 
 	while (woptions.isOpen())
@@ -435,8 +438,8 @@ void wOptions()
 				woptions.close();
 			if (Keyboard::isKeyPressed(Keyboard::Down))
 			{
-				if (s1 == 21)
-					s1 = 21;
+				if (s1 == 22)
+					s1 = 22;
 				else
 					s1 += 1;
 			}
@@ -631,7 +634,7 @@ int main()
 	WRules.setTexture(Wrules);
 	WRules.setPosition(0, 0);
 
-	for (int i(0); i < 22; ++i)
+	for (int i(0); i < Snakes.size(); ++i)
 	{
 
 		SN23[i].loadFromFile("Snake/Tex/SN" + to_string(i) + ".png");
