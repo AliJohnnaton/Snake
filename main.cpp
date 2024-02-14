@@ -5,16 +5,14 @@
 using namespace std;
 using namespace sf;
 
-Text score1, Play, Options, Rules, Exit;
 Font font, mfont;
 int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=5,q=50;
 double pix = 25, piy = 0, wi(0), hi(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.05, otimer = 0, odelay = 0.05;
-Sprite tile, Snak, apple, Heal, GO, WRules, Menu;
 Sound Happle, Happ, Fall;
 RenderWindow window, woptions, wmenu, wrules;
-Sprite Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
+Sprite tile, Snak, apple, Heal, GO, WRules, Menu, Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
 vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22 };
-Text SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22;
+Text score1, Play, Options, Rules, Exit, SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22;
 vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22 };
 Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22;
 vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22 };
