@@ -7,17 +7,17 @@ using namespace sf;
 
 Text score1, Play, Options, Rules, Exit;
 Font font, mfont;
-int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=5;
+int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=5,q=50;
 double pix = 25, piy = 0, wi(0), hi(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.05, otimer = 0, odelay = 0.05;
 Sprite tile, Snak, apple, Heal, GO, WRules, Menu;
 Sound Happle, Happ, Fall;
 RenderWindow window, woptions, wmenu, wrules;
-Sprite Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22,Sn23;
-vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22,Sn23 };
-Text SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22,SN24;
-vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22,SN24 };
-Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22, sn23;
-vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22, sn23 };
+Sprite Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
+vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22 };
+Text SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22;
+vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22 };
+Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22;
+vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22 };
 
 struct Snake
 {
@@ -209,37 +209,37 @@ void zmeyka()
 			{
 				c = 3;
 			}
-			Snak.setTextureRect(IntRect(c * 25, 2 * 25, 25, 25));
+			Snak.setTextureRect(IntRect(c * q, 2 * q, q, q));
 
 		}
 		else if (i > 0 && i != num - 1)
 		{
-			Snak.setTextureRect(IntRect((pos - 1) * 25, 1 * 25, 25, 25));
+			Snak.setTextureRect(IntRect((pos - 1) * q, 1 * q, q, q));
 		}
 		else if (i == num - 1)
 		{
 			int a;
 			a = p[i - 1].x;
-			Snak.setTextureRect(IntRect((a - 1) * 25, 3 * 25, 25, 25));
+			Snak.setTextureRect(IntRect((a - 1) * q, 3 * q, q, q));
 		}
 		else
 		{
 			if (s[0].z == 1)
-				Snak.setTextureRect(IntRect((pos - 1) * 25, 4 * 25, 25, 25));
+				Snak.setTextureRect(IntRect((pos - 1) * q, 4 * q, q, q));
 			else
-				Snak.setTextureRect(IntRect((pos - 1) * 25, 0 * 25, 25, 25));
+				Snak.setTextureRect(IntRect((pos - 1) * q, 0 * q, q, q));
 		}
-		Snak.setScale(pix / 25, piy / 25);
+		Snak.setScale(pix / q, piy / q);
 		Snak.setPosition(s[i].x * pix, s[i].y * piy);
 		window.draw(Snak);
 	}
 	apple.setTextureRect(IntRect(0, 0, 32, 32));
-	apple.setScale(pix / 25, piy / 25);
+	apple.setScale(pix / 32, piy / 32);
 	apple.setPosition(f.x * pix, f.y * piy);
 	window.draw(apple);
 
 	apple.setTextureRect(IntRect(32, 0, 32, 32));
-	apple.setScale(pix / 25, piy / 25);
+	apple.setScale(pix / 32, piy / 32);
 	apple.setPosition(f2.x * pix, f2.y * piy);
 	window.draw(apple);
 
@@ -467,8 +467,8 @@ void wOptions()
 			{
 				if (i == 2)
 					pp = 3;
-				Sn0.setTextureRect(IntRect(0*25, pp*25, 25, 25));
-				Sn0.setScale(16, 16);
+				Sn0.setTextureRect(IntRect(0*q, pp*q, q, q));
+				Sn0.setScale(8, 8);
 				Sn0.setPosition(xp, 300);
 				woptions.draw(Sn0);
 				xp += 400;
@@ -664,10 +664,10 @@ int main()
 	
 	//Задание настроек Очков
 	
-	font.loadFromFile("Minecraft Rus NEW.otf");
+	font.loadFromFile("light-arial.ttf");
 	score1.setFont(font);
-	score1.setCharacterSize(20);
-	score1.setFillColor(Color(255, 0, 150, 100));
+	score1.setCharacterSize(30);
+	score1.setFillColor(Color(255, 0, 255, 255));
 	score1.setPosition(10, hi - 50);
 	Vector2<float> score_scale(1.5f, 1.5f);
 	score1.setScale(score_scale);
