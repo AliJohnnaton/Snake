@@ -7,7 +7,7 @@ using namespace sf;
 
 Font font, mfont;
 int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=5,q=50;
-double pix = 25, piy = 0, wi(0), hi(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.05, otimer = 0, odelay = 0.05;
+double pix = 25, piy = 0, wi(0), hi(0), mw(0), mh(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.06, otimer = 0, odelay = 0.06;
 Sound Happle, Happ, Fall;
 RenderWindow window, woptions, wmenu, wrules;
 Sprite tile, Snak, apple, Heal, GO, WRules, Menu, Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
@@ -166,6 +166,11 @@ void Game()
 				if (f.x == s[j].x && f.y == s[j].y)
 					w = true;
 			}
+			for (int j(0); j < 100; ++j)
+			{
+				if (f.x == fu[j].x && f.y == fu[j].y)
+					w = true;
+			}
 			if (!w)
 				break;
 		}
@@ -260,16 +265,8 @@ void wGame()
 	window.create(VideoMode::getDesktopMode(), "Snake", Style::Fullscreen);
 	window.setMouseCursorVisible(false);
 
-	f.x = rand() % M;
-	f.y = rand() % N;
-
-	f2.x = M + 1;
-	f2.y = N + 1;
-	for (int i(0); i < 100; ++i)
-	{
-		fu[i].x = M + 1;
-		fu[i].y = N + 1;
-	}
+	
+	
 
 	Clock clock;
 	clock.restart();
@@ -409,7 +406,7 @@ void wOptions()
 		Vector2<float> score_scale(1.5f, 1.5f);
 		SnakeS[i].setScale(score_scale);
 		SnakeS[i].setString(to_string(i+1));
-		pol += 38;
+		pol += 45;
 	}
 
 	while (woptions.isOpen())
@@ -436,15 +433,15 @@ void wOptions()
 				woptions.close();
 			if (Keyboard::isKeyPressed(Keyboard::Down))
 			{
-				if (s1 == 22)
-					s1 = 22;
+				if (s1 == 21)
+					s1 = 0;
 				else
 					s1 += 1;
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Up))
 			{
 				if (s1 == 0)
-					s1 = 0;
+					s1 = 21;
 				else
 					s1 -= 1;
 			}
@@ -453,6 +450,7 @@ void wOptions()
 			if (Keyboard::isKeyPressed(Keyboard::Enter))
 			{
 				Snak = Snakes[s1];
+				v = 0;
 				woptions.close();
 			}
 
@@ -506,6 +504,8 @@ void WMenu()
 {
 	vector<Text> PMenu{ Play,Options,Rules,Exit };
 	vector<String> SMenu{ "Play","Options","Rules","Exit" };
+    
+
 	int pol = 250;
 	vector<double> pok{ wi / 2 - 70, wi / 2 - 135,wi / 2 - 100,wi / 2 - 60 };
 	for (int i(0); i < PMenu.size(); ++i)
@@ -519,6 +519,7 @@ void WMenu()
 		PMenu[i].setString(SMenu[i]);
 		pol += 150;
 	}
+
 
 	wmenu.create(VideoMode::getDesktopMode(), "Menu", Style::Fullscreen);
 	wmenu.setMouseCursorVisible(false);
@@ -607,6 +608,19 @@ int main()
 	hi = VideoMode::getDesktopMode().height;
 	pix = wi / M;
 	piy = hi / N;
+	mw = wi/1760;
+	mh = hi/990;
+
+	f.x = rand() % M;
+	f.y = rand() % N;
+
+	f2.x = M + 1;
+	f2.y = N + 1;
+	for (int i(0); i < 100; ++i)
+	{
+		fu[i].x = M + 1;
+		fu[i].y = N + 1;
+	}
 
 	SoundBuffer happle;
 	happle.loadFromFile("Snake/apple.wav");
@@ -625,11 +639,13 @@ int main()
 	Texture menu;
 	menu.loadFromFile("Menu/Menu.jpg");
 	Menu.setTexture(menu);
+	Menu.setScale(mw, mh);
 	Menu.setPosition(0, 0);
 
 	Texture Wrules;
 	Wrules.loadFromFile("Menu/Rules.jpg");
 	WRules.setTexture(Wrules);
+	WRules.setScale(mw,mh);
 	WRules.setPosition(0, 0);
 
 	for (int i(0); i < Snakes.size(); ++i)
@@ -674,5 +690,4 @@ int main()
 	mfont.loadFromFile("Menu/Menu.ttf");
 	
 	WMenu();
-
 }
