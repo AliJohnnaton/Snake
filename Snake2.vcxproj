@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openal32.dll" />
@@ -157,6 +158,9 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

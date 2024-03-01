@@ -1,21 +1,15 @@
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
-using namespace std;
-using namespace sf;
+#include "Texture.h"
 
 Font font, mfont;
-int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=5,q=50;
+int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=0, q=50, s2=0, kolv=22, vi=0;
 double pix = 25, piy = 0, wi(0), hi(0), mw(0), mh(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.06, otimer = 0, odelay = 0.06;
 Sound Happle, Happ, Fall;
 RenderWindow window, woptions, wmenu, wrules;
-Sprite tile, Snak, apple, Heal, GO, WRules, Menu, Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22;
-vector<Sprite> Snakes{ Sn1, Sn2, Sn3, Sn4, Sn5, Sn6, Sn7, Sn8, Sn9, Sn10, Sn11, Sn12, Sn13, Sn14, Sn15, Sn16, Sn17, Sn18, Sn19, Sn20, Sn21, Sn22 };
-Text score1, Play, Options, Rules, Exit, SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22;
-vector<Text> SnakeS{ SN1, SN2, SN3, SN4, SN5, SN6, SN7, SN8, SN9, SN10, SN11, SN12, SN13, SN14, SN15, SN16, SN17, SN18, SN19, SN20, SN21, SN22 };
-Texture sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22;
-vector<Texture> SN23{ sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15, sn16, sn17, sn18, sn19, sn20, sn21, sn22 };
+Sprite tile, Snak, Snak1, apple, Heal, GO, WRules, Menu;
+vector<Sprite> Snakes, Snakes1;
+Text score1, Play, Options, Rules, Exit;
+vector<Text> SnakeS, SnakeS1;
+vector<Texture> SN, SN1;
 
 struct Snake
 {
@@ -213,28 +207,37 @@ void zmeyka()
 				c = 3;
 			}
 			Snak.setTextureRect(IntRect(c * q, 2 * q, q, q));
-
+			Snak1.setTextureRect(IntRect(c * q, 2 * q, q, q));
 		}
 		else if (i > 0 && i != num - 1)
 		{
 			Snak.setTextureRect(IntRect((pos - 1) * q, 1 * q, q, q));
+			Snak1.setTextureRect(IntRect((pos - 1) * q, 1 * q, q, q));
 		}
 		else if (i == num - 1)
 		{
 			int a;
 			a = p[i - 1].x;
 			Snak.setTextureRect(IntRect((a - 1) * q, 3 * q, q, q));
+			Snak1.setTextureRect(IntRect((a - 1) * q, 3 * q, q, q));
 		}
 		else
 		{
-			if (s[0].z == 1)
+			if (s[0].z == 1) {
 				Snak.setTextureRect(IntRect((pos - 1) * q, 4 * q, q, q));
-			else
+				Snak1.setTextureRect(IntRect((pos - 1) * q, 4 * q, q, q));
+			}
+			else {
 				Snak.setTextureRect(IntRect((pos - 1) * q, 0 * q, q, q));
+				Snak1.setTextureRect(IntRect((pos - 1) * q, 0 * q, q, q));
+			}
 		}
 		Snak.setScale(pix / q, piy / q);
 		Snak.setPosition(s[i].x * pix, s[i].y * piy);
 		window.draw(Snak);
+		Snak1.setScale(pix / q, piy / q);
+		Snak1.setPosition(s[i].x * pix, s[i].y * piy);
+		window.draw(Snak1);
 	}
 	apple.setTextureRect(IntRect(0, 0, 32, 32));
 	apple.setScale(pix / 32, piy / 32);
@@ -391,21 +394,29 @@ void wGame()
 
 void wOptions()
 {
-	Sprite Sn0;
+	Sprite Sn0, Sn01;
 	woptions.create(VideoMode::getDesktopMode(), "Options", Style::Fullscreen);
 	woptions.setMouseCursorVisible(false);
 	Clock oclock;
 	oclock.restart();
 	int pol = 38;
-	for (int i(0); i < SnakeS.size(); ++i)
+	for (int i(0); i < kolv; ++i)
 	{
+		int polx = 10;
 		SnakeS[i].setFont(mfont);
 		SnakeS[i].setCharacterSize(20);
 		SnakeS[i].setFillColor(Color::White);
-		SnakeS[i].setPosition(10, pol);
+		SnakeS[i].setPosition(polx, pol);
 		Vector2<float> score_scale(1.5f, 1.5f);
 		SnakeS[i].setScale(score_scale);
-		SnakeS[i].setString(to_string(i+1));
+		SnakeS[i].setString(to_string(i + 1));
+		polx = 60;
+		SnakeS1[i].setFont(mfont);
+		SnakeS1[i].setCharacterSize(20);
+		SnakeS1[i].setFillColor(Color::White);
+		SnakeS1[i].setPosition(polx, pol);
+		SnakeS1[i].setScale(score_scale);
+		SnakeS1[i].setString(to_string(i + 1));
 		pol += 45;
 	}
 
@@ -422,42 +433,87 @@ void wOptions()
 		}
 		
 		for (int i(0); i < SnakeS.size(); ++i)
+		{
 			SnakeS[i].setFillColor(Color::White);
+			SnakeS1[i].setFillColor(Color::White);
+		}
 		
-
+		
 		
 		if (otimer > odelay)
 		{
 			otimer = 0;
 			if (Keyboard::isKeyPressed(Keyboard::Escape))
 				woptions.close();
+			if (Keyboard::isKeyPressed(Keyboard::Left))
+			{
+				if (vi==0)
+					vi=1;
+				else
+					vi=0;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Right))
+			{
+				if (vi == 1)
+					vi = 0;
+				else
+					vi = 1;
+			}
 			if (Keyboard::isKeyPressed(Keyboard::Down))
 			{
-				if (s1 == 21)
-					s1 = 0;
-				else
-					s1 += 1;
+				switch (vi)
+				{
+				case 0:
+					if (s1 == 21)
+						s1 = 0;
+					else
+						s1 += 1;
+					break;
+				case 1:
+					if (s2 == 21)
+						s2 = 0;
+					else
+						s2 += 1;
+					break;
+				}
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Up))
 			{
-				if (s1 == 0)
-					s1 = 21;
-				else
-					s1 -= 1;
+				switch (vi)
+				{
+				case 0:
+					if (s1 == 0)
+						s1 = 21;
+					else
+						s1 -= 1;
+					break;
+				case 1:
+					if (s2 == 0)
+						s2 = 21;
+					else
+						s2 -= 1;
+					break;
+				}
 			}
 			SnakeS[s1].setFillColor(Color::Red);
+			SnakeS1[s2].setFillColor(Color::Red);
 
 			if (Keyboard::isKeyPressed(Keyboard::Enter))
 			{
 				Snak = Snakes[s1];
+				Snak1 = Snakes1[s2];
 				v = 0;
 				woptions.close();
 			}
 
 			Sn0 = Snakes[s1];
+			Sn01 = Snakes1[s2];
 			woptions.draw(Menu);
-			for (int i(0); i < Snakes.size(); ++i)
+			for (int i(0); i < kolv; ++i)
+			{
 				woptions.draw(SnakeS[i]);
+				woptions.draw(SnakeS1[i]);
+			}
 			int xp(400), pp(0);
 			for (int i(0); i < 3; ++i)
 			{
@@ -467,6 +523,10 @@ void wOptions()
 				Sn0.setScale(8, 8);
 				Sn0.setPosition(xp, 300);
 				woptions.draw(Sn0);
+				Sn01.setTextureRect(IntRect(0 * q, pp * q, q, q));
+				Sn01.setScale(8, 8);
+				Sn01.setPosition(xp, 300);
+				woptions.draw(Sn01);
 				xp += 400;
 				pp += 1;
 			}
@@ -599,7 +659,12 @@ void WMenu()
 
 int main()
 {
-	
+	Snakes.resize(kolv);
+	SnakeS.resize(kolv);
+	SnakeS1.resize(kolv);
+	Snakes1.resize(kolv);
+	SN.resize(kolv);
+	SN1.resize(kolv);
 	setlocale(LC_ALL, "ru");
 	srand(time(0));
 
@@ -651,11 +716,13 @@ int main()
 	for (int i(0); i < Snakes.size(); ++i)
 	{
 
-		SN23[i].loadFromFile("Snake/Tex/SN" + to_string(i) + ".png");
-		Snakes[i].setTexture(SN23[i]);
-		
+		SN[i].loadFromFile("Snake/Tex/SN" + to_string(i) + ".png");
+		Snakes[i].setTexture(SN[i]);
+		SN1[i].loadFromFile("Snake/Tex2/SN" + to_string(i) + ".png");
+		Snakes1[i].setTexture(SN1[i]);
 	}
 	Snak = Snakes[s1];
+	Snak1 = Snakes1[s2];
 
 	Texture tex;
 	tex.loadFromFile("Snake/ground.png");
