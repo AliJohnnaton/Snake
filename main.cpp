@@ -1,15 +1,16 @@
 #include "Texture.h"
 
 Font font, mfont;
-int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=0, q=50, s2=0, kolv=22, vi=0;
+int M = 30, N = 20, heal = 3, mob = 0, d = 2, num = 3, score = 0, v=0, s1=0, q=50, s2=0, kolv=22, vi=0, rul=0;
 double pix = 25, piy = 0, wi(0), hi(0), mw(0), mh(0), timer = 0, delay = 0.15, timerm = 0, delaym = 15,mtimer=0,mdelay=0.06, otimer = 0, odelay = 0.06;
 Sound Happle, Happ, Fall;
-RenderWindow window, woptions, wmenu, wrules;
-Sprite tile, Snak, Snak1, apple, Heal, GO, WRules, Menu;
+RenderWindow window, woptions, wmenu;
+Sprite tile, Snak, Snak1, apple, Heal, GO, Menu;
 vector<Sprite> Snakes, Snakes1;
 Text score1, Play, Options, Rules, Exit;
 vector<Text> SnakeS, SnakeS1;
 vector<Texture> SN, SN1;
+Clock oclock;
 
 struct Snake
 {
@@ -81,15 +82,30 @@ void Game()
 				}
 			}
 	}
-
-	if (s[0].x > M - 1)
-		s[0].x = 0;
-	if (s[0].x < 0)
-		s[0].x = M - 1;
-	if (s[0].y > N - 1)
-		s[0].y = 0;
-	if (s[0].y < 0)
-		s[0].y = N - 1;
+	if (rul == 0)
+	{
+		if (s[0].x > M - 1)
+			s[0].x = 0;
+		if (s[0].x < 0)
+			s[0].x = M - 1;
+		if (s[0].y > N - 1)
+			s[0].y = 0;
+		if (s[0].y < 0)
+			s[0].y = N - 1;
+	}
+	else
+	{
+		if ((s[0].x == M) || (s[0].x == -1))
+		{
+			s[0].z = 1;
+			delay = 15;
+		}
+		if ((s[0].y == N)||(s[0].y==-1))
+		{
+			s[0].z = 1;
+			delay = 15;
+		}
+	}
 
 	if ((score % 100 == 0 && score != 0) && f2.f3 != 1)
 	{
@@ -397,7 +413,7 @@ void wOptions()
 	Sprite Sn0, Sn01;
 	woptions.create(VideoMode::getDesktopMode(), "Options", Style::Fullscreen);
 	woptions.setMouseCursorVisible(false);
-	Clock oclock;
+	
 	oclock.restart();
 	int pol = 38;
 	for (int i(0); i < kolv; ++i)
@@ -539,47 +555,31 @@ void wOptions()
 	}
 }
 
-void wRules()
-{
-	wrules.create(VideoMode::getDesktopMode(), "Rules", Style::Fullscreen);
-	wrules.setMouseCursorVisible(false);
-
-	while (wrules.isOpen())
-	{
-		Event eventr;
-		while (wrules.pollEvent(eventr))
-		{
-			if (eventr.type == Event::Closed)
-				wrules.close();
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
-			wrules.close();
-
-		wrules.draw(WRules);
-		wrules.display();
-	}
-}
-
 void WMenu()
 {
 	vector<Text> PMenu{ Play,Options,Rules,Exit };
-	vector<String> SMenu{ "Play","Options","Rules","Exit" };
-    
-
+	vector<String> SMenu{ "Play","Options","<Mode>","Exit" };
 	int pol = 250;
-	vector<double> pok{ wi / 2 - 70, wi / 2 - 135,wi / 2 - 100,wi / 2 - 60 };
+	vector<double> pok{ wi / 2 - 70 * mw, wi / 2 - 135 * mw,wi / 2 - 140 * mw,wi / 2 - 65 * mw };
 	for (int i(0); i < PMenu.size(); ++i)
 	{
 		PMenu[i].setFont(mfont);
 		PMenu[i].setCharacterSize(50);
 		PMenu[i].setFillColor(Color::White);
-		PMenu[i].setPosition(pok[i], pol);
+		PMenu[i].setPosition(pok[i], pol*mh);
 		Vector2<float> score_scale(1.5f, 1.5f);
 		PMenu[i].setScale(score_scale);
 		PMenu[i].setString(SMenu[i]);
 		pol += 150;
 	}
-
+	Text gmode;
+	gmode.setFont(mfont);
+	gmode.setCharacterSize(50);
+	gmode.setFillColor(Color::Cyan);
+	gmode.setPosition(wi/2+500*mw, 10);
+	Vector2<float> score_scale(1.5f, 1.5f);
+	gmode.setScale(score_scale);
+	gmode.setString("Classic");
 
 	wmenu.create(VideoMode::getDesktopMode(), "Menu", Style::Fullscreen);
 	wmenu.setMouseCursorVisible(false);
@@ -620,6 +620,29 @@ void WMenu()
 					v -= 1;
 			}
 			PMenu[v].setFillColor(Color::Red);
+			if (v == 2)
+			{
+				if (Keyboard::isKeyPressed(Keyboard::Left))
+				{
+					if (rul == 0)
+						rul = 1;
+					else
+						rul = 0;
+				}
+				if (Keyboard::isKeyPressed(Keyboard::Right))
+				{
+					if (rul == 1)
+						rul = 0;
+					else
+						rul = 1;
+				}
+			}
+
+			if(rul==0)
+				gmode.setString("Classic");
+			else
+				gmode.setString("Room");
+
 
 			if (Keyboard::isKeyPressed(Keyboard::Enter))
 			{
@@ -635,11 +658,6 @@ void WMenu()
 					wOptions();
 					break;
 				}
-				case 2:
-				{
-					wRules();
-					break;
-				}
 				case 3:
 				{
 					wmenu.close();
@@ -652,6 +670,7 @@ void WMenu()
 			{
 				wmenu.draw(PMenu[i]);
 			}
+			wmenu.draw(gmode);
 			wmenu.display();
 		}
 	}
@@ -707,20 +726,11 @@ int main()
 	Menu.setScale(mw, mh);
 	Menu.setPosition(0, 0);
 
-	Texture Wrules;
-	Wrules.loadFromFile("Menu/Rules.jpg");
-	WRules.setTexture(Wrules);
-	WRules.setScale(mw,mh);
-	WRules.setPosition(0, 0);
-
-	for (int i(0); i < Snakes.size(); ++i)
-	{
-
+	for (int i(0); i < Snakes.size(); ++i){
 		SN[i].loadFromFile("Snake/Tex/SN" + to_string(i) + ".png");
 		Snakes[i].setTexture(SN[i]);
 		SN1[i].loadFromFile("Snake/Tex2/SN" + to_string(i) + ".png");
-		Snakes1[i].setTexture(SN1[i]);
-	}
+		Snakes1[i].setTexture(SN1[i]);}
 	Snak = Snakes[s1];
 	Snak1 = Snakes1[s2];
 
